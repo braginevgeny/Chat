@@ -1,0 +1,51 @@
+﻿Реализовал простой рабочий вариант чата онлайн консультаций.
+Проект создавал в MS VisualStudio 2017 (Проект полностью скидываю)
+
+Серверная часть 
+Node.js, сокеты через модуль io.sockets.
+
+
+Сам чат, сервер возвращает по URL http://{HOST}:3000/TestChat
+
+
+Скрипт на клиенте вызывает данный URL и получает JSON объект, с HTML, стилями и JS скриптом. Далее он встраивается в DOM-дерево сайта.
+После инициализации сервер шлет первое сообщение: имя, фотку и должность оператора.
+На любое сообщение клиента, сервер возвращает стандратное сообщение, о том что он Бот.
+
+
+Скрипт для размещение на сайте, в body:
+<script type='text/javascript'>
+        function getChat() { 
+            async = true; 
+            var xhr = new XMLHttpRequest(); 
+            xhr.withCredentials = true; 
+            xhr.onload = function () { 
+                var respons = JSON.parse(xhr.responseText);
+                var head = document.head || document.getElementsByTagName('head')[0];
+                var style = document.createElement('style');
+                var script = document.createElement('script');
+                style.type = "text/css";
+                script.type = "text/javascript";
+                var div = document.createElement("div");
+                div.innerHTML = respons.html;
+                document.body.appendChild(div);
+               
+                script.appendChild(document.createTextNode(respons.js));
+                head.appendChild(script);
+                style.appendChild(document.createTextNode(respons.css));
+                head.appendChild(style);
+            }; 
+            xhr.onerror = function () { 
+                console.error('loading error') }; 
+                xhr.open('GET', 'http://{HOST}:3000/TestChat', async); 
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+                xhr.send(); 
+        }    
+        getChat();             
+ </script>   
+ 
+ 
+ Реализация простая на JavaScript без лишних библиотек типа JQuery. Если есть необходимость могу
+ сделать на TypeScript и с использованием WebPack, пока из-за ограниченного времени сделал такой вариант.
+ Фактически ушло в районе 2-х рабочих дней. (По факту работать получается после 22.00). 
+ 

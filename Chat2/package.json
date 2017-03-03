@@ -1,0 +1,14 @@
+{
+  "name": "chat2",
+  "version": "0.0.0",
+  "description": "Chat2",
+  "main": "server.js",
+  "author": {
+    "name": "JekaPC"
+  },
+  "dependencies": {
+    "express": "^4.14.1",
+    "fs": "0.0.1-security",
+    "socket.io": "^1.7.3"
+  }
+}
